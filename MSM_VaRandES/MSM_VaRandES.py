@@ -35,20 +35,20 @@ plt.plot(x_range, dlognormalLoss(x_range), 'k--', linewidth=2, label='PDF')
 
 
 ###############################################################################
-###    #calculate VaR                                                     #####
-###    Set confidence level                                               #####
+###    #VaR calculation                                                   #####
+###    #Set confidence level                                              #####
 ###   alpha = 0.1  # This means 90% confidence (1-alpha = 0.9)            #####
 ###   confidence_level = 1 - alpha                                        #####
 ###   Calculate VaR (Value at Risk) at 90% confidence level               #####
 ###    var= stats.lognorm.ppf(confidence_level, sigma, scale=np.exp(mu))  #####
 ###                                                                       #####
 ###############################################################################
-# Fill in the part beyond VaR with shadow
+
 var_alpha = 2.42 # assumed value
 x_tail = np.linspace(var_alpha, 4, 100)
 y_tail = dlognormalLoss(x_tail)
 
-# Create polygon for shaded area
+# Create polygon for shadow area beyond VaR
 x_poly = np.concatenate([[var_alpha], x_tail])
 y_poly = np.concatenate([[dlognormalLoss(3)], y_tail])
 plt.fill_between(x_poly, 0, y_poly, color='grey', alpha=0.7)
@@ -113,7 +113,7 @@ plt.tight_layout()
 plt.savefig('MSM_VaRandES 2.png', dpi=300, bbox_inches='tight')
 plt.show()
 
-# Print some key values for verification
+# Print values for verification
 print(f"VaR at the specified level: {var_alpha}")
 print(f"CDF at VaR: {plognormalLoss(var_alpha):.3f}")
 print(f"PDF at VaR: {dlognormalLoss(var_alpha):.3f}")
